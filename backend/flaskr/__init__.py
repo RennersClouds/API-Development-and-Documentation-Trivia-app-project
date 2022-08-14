@@ -272,6 +272,7 @@ def create_app(test_config=None):
             'error': 405,
             'message': 'method not allowed'
         }), 405
+        
     @app.errorhandler(500)
     def internal_server_error(error):
 
