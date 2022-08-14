@@ -66,12 +66,11 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'method not allowed')
 
     def test_delete_question(self):
-        result = self.client().delete('/questions/4')
+        result = self.client().delete('/questions/1')
         data = json.loads(result.data)
-        question = Question.query.filter(Question.id == 4).one_or_none()
         self.assertEqual(result.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertEqual(question, None)
+
     
     def test_delete_question_error(self):
         result = self.client().delete('/questions/50000')
@@ -80,30 +79,32 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'unprocessable')
 
     def test_create_question(self):
-        result = self.client().post('/questions', json=self.new_question)
+        result = self.client().post('/questions', json=self.test_question)
         data = json.loads(result.data)
+        question = Question.query.get(data["added"])
         self.assertEqual(result.status_code, 200)
         self.assertEqual(data['success'], True)
+        self.assertTrue(question)
 
     def test_create_question_error(self):
-        result = self.client().post('/questions/1', json=self.new_question)
+        result = self.client().post('/questions/1', json={})
         data = json.loads(result.data)
-        self.assertEqual(result.status_code, 405)
+        self.assertEqual(result.status_code, 400)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'method not allowed')
+        
 
     def test_search_questions(self):
-        result = self.client().post('/questions/search', json={'searchTerm': 'pyramid'})
+        result = self.client().post('/questions/search', json={'searchTerm': 'Oscar'})
         data = json.loads(result.data)
         self.assertEqual(result.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(len(data['current_category']))
-        self.assertTrue(data['total_questions'])
+        
 
     def test_search_questions_error(self):
         result = self.client().post('/questions/search', json={'searchTerm': 'nflsdjljsf'})
         data = json.loads(result.data)
-        self.assertEqual(result.status_code, 200)
+        self.assertEqual(result.status_code, 404)
         self.assertEqual(data['success'], False)
         self.assertFalse(data['questions'])
         self.assertFalse(data['current_category'])
@@ -117,12 +118,6 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(len(data['questions']))
     
 
-    def test_test_get_questions_by_category_error(self):
-        result = self.client().post('/categories/1/questions')
-        data = json.loads(result.data)
-        self.assertEqual(result.status_code, 405)
-        self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'method not allowed')
 
     def test_quizze_question(self):
         result = self.client().post('/quizzes',  json={"previous_questions": [5, 9], "quiz_category": {'id': 7, 'type': 'Geography'}})
