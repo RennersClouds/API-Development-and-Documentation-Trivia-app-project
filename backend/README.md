@@ -71,6 +71,255 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 
 You will need to provide detailed documentation of your API endpoints including the URL, request parameters, and the response body. Use the example below as a reference.
 
+# API END POINTS
+
+```python
+GET  '/categores/all'
+```
+. Fetches all categories where the keys value pairs are the ids and the corresponding string of the category
+. Example Response:
+
+                          ```json
+              {
+                        "categories": {
+                          "1": "Science",
+                          "2": "Art",
+                          "3": "Geography",
+                          "4": "History",
+                          "5": "Entertainment",
+                          "6": "Sports"
+                        },
+                        "success": true
+                      }
+
+            ```
+
+
+
+
+```python
+GET '/questions/all'
+```
+. Fetches a paginated dictionary of questions of all available categories
+. Example Response:
+                  
+                ```json
+              {
+              "categories": {
+                "1": "Science",
+                "2": "Art",
+                "3": "Geography",
+                "4": "History",
+                "5": "Entertainment",
+                "6": "Sports"
+              },
+              "current_category": "Null",
+              "questions": [
+                {
+                  "answer": "Maya Angelou",
+                  "category": 4,
+                  "difficulty": 2,
+                  "id": 5,
+                  "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+                },
+                {
+                  "answer": "Muhammad Ali",
+                  "category": 4,
+                  "difficulty": 1,
+                  "id": 9,
+                  "question": "What boxer's original name is Cassius Clay?"
+                },
+                {
+                  "answer": "Apollo 13",
+                  "category": 5,
+                  "difficulty": 4,
+                  "id": 2,
+                  "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+                },
+                {
+                  "answer": "Tom Cruise",
+                  "category": 5,
+                  "difficulty": 4,
+                  "id": 4,
+                  "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+                },
+                {
+                  "answer": "Edward Scissorhands",
+                  "category": 5,
+                  "difficulty": 3,
+                  "id": 6,
+                  "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+                },
+                {
+                  "answer": "Brazil",
+                  "category": 6,
+                  "difficulty": 3,
+                  "id": 10,
+                  "question": "Which is the only team to play in every soccer World Cup tournament?"
+                },
+                {
+                  "answer": "Uruguay",
+                  "category": 6,
+                  "difficulty": 4,
+                  "id": 11,
+                  "question": "Which country won the first ever soccer World Cup in 1930?"
+                },
+                {
+                  "answer": "George Washington Carver",
+                  "category": 4,
+                  "difficulty": 2,
+                  "id": 12,
+                  "question": "Who invented Peanut Butter?"
+                },
+                {
+                  "answer": "Lake Victoria",
+                  "category": 3,
+                  "difficulty": 2,
+                  "id": 13,
+                  "question": "What is the largest lake in Africa?"
+                },
+                {
+                  "answer": "The Palace of Versailles",
+                  "category": 3,
+                  "difficulty": 3,
+                  "id": 14,
+                  "question": "In which royal palace would you find the Hall of Mirrors?"
+                }
+              ],
+              "total_questions": 21
+            }
+            ```
+
+
+
+
+```python
+DELETE '/questions/<int:question_id>'
+```
+. Deletes a question by a specified id number (only the question with that id exists)
+. Request Arguments: question_id
+. Example Response:
+
+              ```json
+            {
+              "question": 6,
+              "success": true
+            }
+
+            ```
+
+
+
+```python
+POST '/questions/all'
+```
+. Creates a new question using the submitted question and answer text, difficulty and category score
+. Request Arguments: answer, category, difficulty, question
+. Example Response: 
+
+    ```json
+        {
+          "success": true
+        }
+
+    ```
+
+
+
+```python
+POST '/questions/search'
+```
+. Fetches all questions where a substring matches the search_term
+. Request Arguments: search_term
+. Example Response: 
+
+          ```json
+          {
+            "current_category": "Null",
+            "questions": [
+              {
+                "answer": "kafanchan",
+                "category": 1,
+                "difficulty": 1,
+                "id": 27,
+                "question": "what is game"
+              },
+              {
+                "answer": "zonkwa",
+                "category": 2,
+                "difficulty": 1,
+                "id": 33,
+                "question": "what is game"
+              },
+              {
+                "answer": "kafanchan",
+                "category": 1,
+                "difficulty": 1,
+                "id": 34,
+                "question": "last game"
+              },
+              {
+                "answer": "zonkwa",
+                "category": 1,
+                "difficulty": 2,
+                "id": 35,
+                "question": "what is game"
+              }
+            ],
+            "success": true,
+            "total_questions": 4
+          }
+          ```
+
+
+
+```python
+GET '/categories/<int:category_id>/questions/all'
+```
+. Fetches all questions where the category matches the category_id
+. Request Arguments: category_id
+. Example Response: 
+
+  ```json
+          {
+  "current_category": "Null",
+  "questions": [
+    {
+      "answer": "zonkwa",
+      "category": 2,
+      "difficulty": 1,
+      "id": 33,
+      "question": "what is game"
+    }
+  ],
+  "success": true,
+  "total_questions": 1
+}
+```
+
+
+```python
+POST '/PlayQuizzes'
+```
+. Fetches a random question to play the quiz
+. Request Arguments: previous_questions, quiz_category
+. Example Response:
+
+      ```json
+                {
+        "question": {
+          "answer": "kafanchan",
+          "category": 1,
+          "difficulty": 1,
+          "id": 34,
+          "question": "last game"
+        }
+      }
+
+      ```
+
+
+
 ### Documentation Example
 
 `GET '/api/v1.0/categories'`
