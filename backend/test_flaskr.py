@@ -104,7 +104,7 @@ class TriviaTestCase(unittest.TestCase):
     def test_create_question_error(self):
         result = self.client().post('/questions/all')
         data = json.loads(result.data)
-        self.assertEqual(result.status_code, 500)
+        self.assertEqual(result.status_code, 400)
         self.assertEqual(data['success'], False)
         
 
@@ -128,6 +128,11 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(len(data['questions']))
     
+    def test_get_questions_by_category_error(self):
+        result = self.client().get('/categories/1000/questions/all')
+        self.assertEqual(result.status_code, 405)
+      
+        
 
 
     def test_quizze_question(self):
