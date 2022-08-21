@@ -215,13 +215,18 @@ def create_app(test_config=None):
     def play_quizzes():
 
         try:
-
             req = request.get_json()
             prev = req['previous_questions']
             category = req['quiz_category']
-            questions = Question.query.filter(
-                Question.category == category['id']).all()
-            formatted_questions = [question.format() for question in questions]
+
+            if category['id']:
+                questions = Question.query.filter(
+                    Question.category == category['id']).all()
+            else:
+                questions = Question.query.all()
+
+            formatted_questions = [question.format() 
+                for question in questions]
 
             newQeestionss = []
 
